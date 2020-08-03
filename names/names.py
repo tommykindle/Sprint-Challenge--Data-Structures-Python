@@ -19,8 +19,63 @@ for name_1 in names_1:
             duplicates.append(name_1)
 
 end_time = time.time()
-print (f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
-print (f"runtime: {end_time - start_time} seconds")
+print(f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
+print(f"runtime: {end_time - start_time} seconds")
+
+# Solution code
+
+start_time2 = time.time()
+
+
+class BSTNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+    def insert(self, value):
+        if value >= self.value:
+            if self.right == None:
+                self.right = BSTNode(value)
+            else:
+                self.right.insert(value)
+        if value < self.value:
+            if self.left == None:
+                self.left = BSTNode(value)
+            else:
+                self.left.insert(value)
+
+    def contains(self, target):
+        if self.value == target:
+            return True
+        if self.value <= target:
+            if self.right == None:
+                return False
+            if self.right.value == target:
+                return True
+            else:
+                return self.right.contains(target)
+        if self.value > target:
+            if self.left == None:
+                return False
+            if self.left.value == target:
+                return True
+            else:
+                return self.left.contains(target)
+
+
+tree = BSTNode(names_1[0])
+duplicates2 = []
+for i in names_1:
+    tree.insert(i)
+
+for i in names_2:
+    if tree.contains(i):
+        duplicates2.append(i)
+
+end_time2 = time.time()
+print(f"{len(duplicates2)} duplicates:\n\n{', '.join(duplicates2)}\n\n")
+print(f"runtime: {end_time2 - start_time2} seconds")
 
 # ---------- Stretch Goal -----------
 # Python has built-in tools that allow for a very efficient approach to this problem
